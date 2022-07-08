@@ -1,6 +1,5 @@
 #!/usr/local/opt/python@3/bin/python3
 import json
-from fake_useragent import UserAgent
 
 import requests
 

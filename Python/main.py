@@ -1,4 +1,5 @@
 #!/usr/local/opt/python@3/bin/python3
+import functions_framework
 from google.cloud import bigquery
 import requests
 import json
@@ -22,7 +23,6 @@ requests = requests.Session()
 requests.headers.update(
     {'User-Agent': 'Python Agent', "Accept-Encoding": "text,json"})
 url = "https://data.sec.gov/submissions/CIK0001758548.json"
-json_data = get_info()
 
 
 def get_documents(json_data):
@@ -56,35 +56,36 @@ def get_documents(json_data):
         return None
 
 
-company_info = get_documents(json_data)
-
-table_name = "protean-sensor-355503.SEC_Filings.Fillings"
-company_name = company_info['company_name']
-company_address = (company_info['company_address'])
-company_phone = company_info['company_phone']
-last_updated = company_info['last_updated']
-document_names = json_data['filings']['recent']['primaryDocument']
-document_dates = json_data['filings']['recent']['filingDate']
-Documents = {"date": f'{document_dates}', "link": f'{urls}'}
-print(company_info)
-
-
 def implicit():
-    from google.cloud import storage
+    from googel.cloud import storage
     storage_client = storage.Client()
     buckets = list(storage_client.list_buckets())
     print(buckets)
 
 
-client = bigquery.Client()
-query = (
-    f'insert into {table_name} values ("{company_name}","{company_address}","{company_phone}","{last_updated}",(select ("{str(Documents["date"])}" ,"{str(Documents["link"])}"))) '
-)
+@functions_framework.http
+def update_info(request):
 
+    json_data = get_info()
+    company_info = get_documents(json_data)
 
-query_job = client.query(
-    query,
-    location="us-east4"
-)
-results = query_job.result()
-print("Got {} rows.".format(results.total_rows))
+    table_name = "protean-sensor-355503.SEC_Filings.Fillings"
+    company_name = company_info['company_name']
+    company_address = (company_info['company_address'])
+    company_phone = company_info['company_phone']
+    last_updated = company_info['last_updated']
+    document_names = json_data['filings']['recent']['primaryDocument']
+    document_dates = json_data['filings']['recent']['filingDate']
+    Documents = {"date": f'{document_dates}', "link": f'{urls}'}
+    print(company_info)
+    client = bigquery.Client()
+    query = (
+        f'insert into {table_name} values ("{company_name}","{company_address}","{company_phone}","{last_updated}",(select ("{str(Documents["date"])}" ,"{str(Documents["link"])}"))) '
+    )
+
+    query_job = client.query(
+        query,
+        location="us-east4"
+    )
+    results = query_job.result()
+    print("Got {} rows.".format(results.total_rows))
