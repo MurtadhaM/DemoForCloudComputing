@@ -3,6 +3,19 @@ from google.cloud import bigquery
 import requests
 import json
 
+SQL_CREATE_TABLE = """
+
+ create TABLE `gemini-morse.SEC_Fillings.Filling`
+(
+  company_name STRING,
+  company_address STRING,
+  company_phone STRING,
+  last_updated STRING,
+  Documents STRUCT<Document_Data STRING, Document_Link STRING>
+);
+"""
+
+
 
 
 urls = []
@@ -80,8 +93,7 @@ client = bigquery.Client()
 query = (
     f'insert into {table_name} values ("{company_name}","{company_address}","{company_phone}","{last_updated}",(select ("{str(Documents["date"])}" ,"{str(Documents["link"])}"))) '
 )
-
-
+client.cre
 query_job = client.query(
     query,
     location="us-east4"

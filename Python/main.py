@@ -56,11 +56,8 @@ def get_documents(json_data):
         return None
 
 
-def implicit():
-    from googel.cloud import storage
-    storage_client = storage.Client()
-    buckets = list(storage_client.list_buckets())
-    print(buckets)
+    
+    
 
 
 @functions_framework.http
