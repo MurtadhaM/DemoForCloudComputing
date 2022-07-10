@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "description": "A Web Application for the Cloud Site",
+ "author": {
+  "name": "Murtadha Marzouq",
+  "email": "murtadhamarzouq@gmail.com"
+ }, 
+ "committer": {
+  "name": "Murtadha Marzouq"
+ },
+ 
+  "license": "MIT",
+  "keywords": [
+    "cloud",
+    "site",
+    "web",
+    "application"
+  ],
+
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+    
+   }
+  
+}
