@@ -11,9 +11,9 @@ url = "https://data.sec.gov/submissions/CIK0001758548.json"
 # new  requests session
 requests = requests.Session()
 
+
 def download_json():
     try:
-
         requests.headers.update(
     {'User-Agent': 'Python Agent', "Accept-Encoding": "text,json"})
         data = requests.get(url).json()
@@ -21,7 +21,6 @@ def download_json():
     except:
         print("Error in getting the data")
         return None
-
 
 
 
@@ -59,9 +58,9 @@ def parse_information(json_data):
         print("Error in getting the documents")
         return None
 
-JSON_DATA = parse_information(json_data=download_json())
+# main function
+def __main__():
+    JSON_DATA = parse_information(json_data=download_json())
+    data = JSON_DATA.items()
+    return JSON_DATA     
 
-# PRINTING THE DICTIONARY
-data = JSON_DATA.items()
-for key, value in data:
-    print(f"{key}: {value}")
