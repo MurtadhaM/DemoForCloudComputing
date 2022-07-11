@@ -1,0 +1,78 @@
+<script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyC9urgfojlw-J5BzXwoXcKfSbiMSRoP88M",
+    authDomain: "wellnecitydemo.firebaseapp.com",
+
+  };
+  firebase.initializeApp(config);
+
+const {BigQuery} = require('@google-cloud/bigquery');
+const bigquery = new BigQuery();
+
+async function SQL_query(sql) {
+  // Creates a new table named "my_table" in "my_dataset".
+
+  /**
+   * TODO(developer): Uncomment the following lines before running the sample.
+   */
+  // const datasetId = "my_dataset";
+  // const tableId = "my_table";
+  // const schema = 'Name:string, Age:integer, Weight:float, IsMagic:boolean';
+
+  // For all options, see https://cloud.google.com/bigquery/docs/reference/v2/tables#resource
+  const options = {
+    projectId: "wellnecitydemo",
+
+    location: 'US',
+  };
+  const bigquery = options BigQuery();
+
+  bigquery.getDataset(datasetId).getTable(tableId).create(options);
+  // [END bigquery_create_table_with_schema]
+  // execute the query
+  const [rows] = await bigquery.query(sql);
+  console.log('Rows:');
+  rows.forEach(row => console.log(row));
+}
+
+
+
+document.getElementById('submit').addEventListener('click', function() {
+  let sql = document.getElementById('query').value;
+  SQL_query(sql);
+}, false);
+
+
+</script>
+ <html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>WellneCity</title>
+
+</head>
+<body>
+
+  <div class="input-query">
+    <input type="text" id="query" placeholder="Enter your query">
+    <button type="button"  id="submit">Submit</button>
+  </div>
+  <div class="result">
+    <div class="result-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>IsMagic</th>
+          </tr>
+        </thead>
+        <tbody id="result-table-body">
+        </tbody>
+      </table>
+    </div>
+</body>
