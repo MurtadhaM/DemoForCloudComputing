@@ -1,0 +1,13 @@
+{
+  "name": "extract-data",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "run": "node image_generate.js"
+  },
+  "author": "Murtadha Marzouq",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.2.8"
+  }
+}

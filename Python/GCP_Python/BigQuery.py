@@ -1,5 +1,7 @@
 import json
+from turtle import pen
 from google.cloud import bigquery
+from sympy import re
 
 selected_dataset, selected_project, selected_table,selected_row   =  None, None, None, None
 
@@ -30,8 +32,15 @@ def list_rows(dataset_id=selected_dataset, project_id=selected_project, table_id
 
 # function to get the schema of a table
 def get_schema(dataset_id=selected_dataset, project_id=selected_project, table_id=selected_table, row_id=selected_row):
-  SCHEMA = bigquery.Table(f"{project_id}.{dataset_id}.{table_id}.{row_id}", schema=SCHEMA
-  row_data = bigquery.Row(SCHEMA)
+
+  for key, value in row_id.items():
+    selected_row = value
+  table = bigquery.Table(f"{project_id}.{dataset_id}.{table_id}")
+  schema = client.get_table(table).schema
+  return schema
+
+
+
   return row_data
 
 
@@ -53,7 +62,6 @@ selected_row = rows[0]
 # Store the Schema
 SCHEMA = get_schema( selected_dataset, selected_project, selected_table, selected_row)
 
-print(selected_row)
 
 
 
@@ -108,5 +116,12 @@ def get_id_full(project_id=selected_project, dataset_id=selected_dataset, table_
 print("Listing datasets in project: {}".format(selected_project))
 print("Selected dataset: {}".format(selected_dataset))
 print("Selected table: {}".format(selected_table))
+print("Selected row: {}".format(selected_row))
+print("Schema: {}".format(SCHEMA))
+print("")
+print("Listing projects:")
+for project in projects:
+    print(project.project_id)
+
 
 
